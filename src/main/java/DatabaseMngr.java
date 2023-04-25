@@ -218,7 +218,7 @@ public class DatabaseMngr {
     public boolean reviewExists(Review r, Student s) throws SQLException{
         isManagerConnected();
         Boolean exists = false;
-        if(!doesTableExist(connection,"STUDENTS")){
+        if(!doesTableExist(connection,"REVIEWS")){
             throw new IllegalStateException("Students table doesn't exist");
         }
         try{
