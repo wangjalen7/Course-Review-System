@@ -4,6 +4,7 @@ public class main {
 
     login login = new login();
     DatabaseMngr manager = new DatabaseMngr();
+    Student student;
     public void main(String args[]) throws SQLException {
         Scanner myObj = new Scanner(System.in);
         System.out.println("Welcome to course program! are you a new student or " +
@@ -17,7 +18,7 @@ public class main {
             System.out.println("now confirm password");
             String pw = myObj.nextLine();
             if(password.equals(pw)){
-                Student student = new Student (username, password);
+                 student = new Student (username, password);
                 manager.addStudent(student);
 
             }
@@ -29,7 +30,7 @@ public class main {
             System.out.println("ok, what is your user name and pw?");
             String username = myObj.nextLine();
             String password = myObj.nextLine();
-            Student student = new Student (username, password);
+            student = new Student (username, password);
             if(manager.studentExists(student) == true ){
                 System.out.println("good, let us continue");
             }

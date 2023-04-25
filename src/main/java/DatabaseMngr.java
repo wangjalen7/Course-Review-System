@@ -232,5 +232,30 @@ public class DatabaseMngr {
         }
         return !exists;
     }
+    public Review getReview(Course course){
+        isManagerConnected();
+        if (!doesTableExist(connection, "REVIEWS")) {
+            throw new IllegalStateException("Reviews table doesn't exist");
+        }
+        try{
+        String command = "SELECT * FROM REVIEWS WHERE courseNumber = " + course;
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(command);
+        if(rs.next()){
+            Integer id = rs.getInt("id");
+            String name = rs.getString("student_name");
+            Integer course = rs.getInt("course_number");
+            String message = rs.getString("message");
+            Integer rating = rs.getInt("rating");
+            Review review = new Review(name, course, message, rating);
+            return review;
+        }
+    } catch (SQLException e) {
+        throw new IllegalStateException(e);
+    }
 
+    }
+    public Student getStudent(){
+
+    }
 }
