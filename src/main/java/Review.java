@@ -1,12 +1,12 @@
 public class Review {
-    private int student_id;
-    private int course_id;
+    private Student student;
+    private Course course;
     private String message;
     private int rating;
 
-    public Review(int sid, int cid, String msg, int rate){
-        student_id = sid;
-        course_id = cid;
+    public Review(Student s, Course c, String msg, int rate){
+        student = s;
+        course = c;
         message = msg;
         if( rate >= 1 && rate <= 5)
             rating = rate;
@@ -14,12 +14,12 @@ public class Review {
             throw new IllegalArgumentException("Rating must be 1-5");
     }
 
-    public int getStudent_id() {
-        return student_id;
+    public Student getStudent() {
+        return student;
     }
 
-    public int getCourse_id() {
-        return course_id;
+    public Course getCourse() {
+        return course;
     }
 
     public String getMessage() {

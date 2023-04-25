@@ -6,4 +6,12 @@ public class Course {
         department = d;
         number = n;
     }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
 }
