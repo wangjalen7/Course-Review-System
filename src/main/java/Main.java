@@ -49,9 +49,21 @@ public class main {
                     String id = myObj.nextLine();
                     System.out.println("what is course number?");
                     String number = myObj.nextLine();
-                    addReview(id,number);
+                    addReview(id,number,student);
                     break;
                 case 3:
+                    System.out.println("what is course id?");
+                    String id = myObj.nextLine();
+                    System.out.println("what is course number?");
+                    String number = myObj.nextLine();
+                    getReviews(id, number);
+                    break;
+                case 4:
+                    System.out.println("what is course id?");
+                    String id = myObj.nextLine();
+                    System.out.println("what is course number?");
+                    String number = myObj.nextLine();
+                    getAverage(id, number);
 
                 default:
                     System.out.println("wrong number");
