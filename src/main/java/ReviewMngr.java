@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 public class ReviewMngr {
     private Student student;
@@ -16,7 +17,6 @@ public class ReviewMngr {
         try {
             db.connect();
             db.createTables();
-            db.addStudent(e);
             db.addCourse(c);
             db.addReview(r);
             boolean ere = db.newStudent(e);
@@ -31,8 +31,28 @@ public class ReviewMngr {
         }
     }
 
-    public void (){
-        System.out.print("nun");
+    public void login(Student s) throws SQLException{
+        try {
+            db.connect();
+            if (!db.newStudent(s)) {
+                student = db.getStudent(s);
+            } else {
+                throw new NoSuchElementException();
+            }
+            db.disconnect();
+        }
+        catch(ClassNotFoundException c){
+
+        }
     }
+
+    public void register(Student s) throws SQLException{
+        if(db.newStudent(s)){
+            db.addStudent(s);
+            student = s;
+        }
+    }
+
+
 
 }
