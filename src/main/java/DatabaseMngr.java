@@ -199,7 +199,7 @@ public class DatabaseMngr {
         }
     }
 
-    public boolean newStudent(Student s) throws SQLException{
+    public boolean studentExists(Student s) throws SQLException{
         isManagerConnected();
         Boolean exists = false;
         if(!doesTableExist(connection,"STUDENTS")){
@@ -208,6 +208,23 @@ public class DatabaseMngr {
         try{
             Statement statement = connection.createStatement();
             ResultSet rs  = statement.executeQuery("SELECT * FROM STUDENTS WHERE name = '" + s.getUser() + "'");
+            exists = rs.next();
+        }
+        catch(SQLException sq){
+            sq.printStackTrace();
+        }
+        return !exists;
+    }
+    public boolean reviewExists(Review r, Student s) throws SQLException{
+        isManagerConnected();
+        Boolean exists = false;
+        if(!doesTableExist(connection,"REVIEWS")){
+            throw new IllegalStateException("Students table doesn't exist");
+        }
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs  = statement.executeQuery("SELECT * FROM REVIEWS WHERE coursenumber =" + r.getCourse() + "  AND   student_name = " +
+                    "studentnumber = "+ s);
             exists = rs.next();
         }
         catch(SQLException sq){
