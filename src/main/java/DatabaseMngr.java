@@ -254,8 +254,39 @@ public class DatabaseMngr {
         throw new IllegalStateException(e);
     }
 
+    public boolean newCourse(Course c) throws SQLException{
+        isManagerConnected();
+        Boolean exists = false;
+        if(!doesTableExist(connection,"COURSES")){
+            throw new IllegalStateException("Courses table doesn't exist");
+        }
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs  = statement.executeQuery("SELECT * FROM STUDENTS WHERE id = " + c.getNumber());
+            exists = rs.next();
+        }
+        catch(SQLException sq){
+            sq.printStackTrace();
+        }
+        return !exists;
     }
-    public Student getStudent(){
 
+    public Student getStudent(Student s) throws SQLException{
+        isManagerConnected();
+        Student new_s = new Student();
+        Boolean exists = false;
+        if(!doesTableExist(connection,"STUDENTS")){
+            throw new IllegalStateException("Students table doesn't exist");
+        }
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs  = statement.executeQuery("SELECT * FROM STUDENTS WHERE name = '" + s.getUser() + "'");
+            new_s = new Student(rs.getString(0),rs.getString(1));
+        }
+        catch(SQLException sq){
+            sq.printStackTrace();
+        }
+        return new_s;
     }
+
 }

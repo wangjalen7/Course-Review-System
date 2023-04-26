@@ -7,6 +7,11 @@ public class Student {
         password = p;
     }
 
+    public Student(){
+        user = "";
+        password = "";
+    }
+
     public String getUser() {
         return user;
     }
