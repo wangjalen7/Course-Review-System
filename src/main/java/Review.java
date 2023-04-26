@@ -14,6 +14,7 @@ public class Review {
             throw new IllegalArgumentException("Rating must be 1-5");
     }
 
+
     public Student getStudent() {
         return student;
     }
