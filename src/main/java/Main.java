@@ -25,7 +25,7 @@ public class main {
                 String pw = myObj.nextLine();
                 if (password.equals(pw)) {
                     student = new Student(username, password);
-                    manager.addStudent(student);
+
 
                 } else {
                     System.out.println("error, try again, wrong password");
@@ -47,14 +47,14 @@ public class main {
                     Integer number = myObj.nextInt();
                     switch (number) {
                         case 1:
-                            System.exit();
+                            System.exit(0);
                             break;
                         case 2:
                             System.out.println("what is course id?");
                             String id = myObj.nextLine();
                             System.out.println("what is course number?");
-                            String number = myObj.nextLine();
-                            addReview(id, number, student);
+                            String num = myObj.nextLine();
+                            addReview(id, Integ, student);
                             break;
                         case 3:
                             System.out.println("what is course id?");

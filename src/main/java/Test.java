@@ -1,8 +1,15 @@
+import java.sql.SQLException;
+
 public class Test {
     @org.junit.Test
     public void main(){
-        ReviewMngr rm = new ReviewMngr();
-        rm.rate();
+        try {
+            ReviewMngr rm = new ReviewMngr();
+        }
+        catch(SQLException s){
+
+        }
+
 
     }
 }

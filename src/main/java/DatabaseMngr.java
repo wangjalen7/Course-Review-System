@@ -39,34 +39,33 @@ public class DatabaseMngr {
 
     public void createTables() throws SQLException, IllegalStateException{
         isManagerConnected();
-        if (doesTableExist(connection, "STOPS")) {
-            throw new IllegalStateException("the tables already exist");
-        }
-        try{
-            String students = "CREATE TABLE STUDENTS (" +
-                    "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    "name VARCHAR(255) NOT NULL," +
-                    "password VARCHAR(255) NOT NULL)";
+        if (!doesTableExist(connection, "STUDENTS")) {
+            try {
+                String students = "CREATE TABLE STUDENTS (" +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                        "name VARCHAR(255) NOT NULL," +
+                        "password VARCHAR(255) NOT NULL)";
 
-            String courses = "CREATE TABLE COURSES (" +
-                    "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    "department VARCHAR(255) NOT NULL," +
-                    "Catalog_Number int NOT NULL)";
-            String reviews = "CREATE TABLE REVIEWS (" +
-                    "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    "student_name VARCHAR(255) NOT NULL," +
-                    "course_number int NOT NULL," +
-                    "message VARCHAR(255) NOT NULL," +
-                    "rating int NOT NULL," +
-                    "FOREIGN KEY (student_name) REFERENCES STUDENTS(name) ON DELETE CASCADE," +
-                    "FOREIGN KEY (course_number) REFERENCES COURSES(Catalog_Number) ON DELETE CASCADE" +
-                    ")";
-            Statement statement = connection.createStatement();
-            statement.execute(students);
-            statement.execute(courses);
-            statement.execute(reviews);
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
+                String courses = "CREATE TABLE COURSES (" +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                        "department VARCHAR(255) NOT NULL," +
+                        "Catalog_Number int NOT NULL)";
+                String reviews = "CREATE TABLE REVIEWS (" +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                        "student_name VARCHAR(255) NOT NULL," +
+                        "course_number int NOT NULL," +
+                        "message VARCHAR(255) NOT NULL," +
+                        "rating int NOT NULL," +
+                        "FOREIGN KEY (student_name) REFERENCES STUDENTS(name) ON DELETE CASCADE," +
+                        "FOREIGN KEY (course_number) REFERENCES COURSES(Catalog_Number) ON DELETE CASCADE" +
+                        ")";
+                Statement statement = connection.createStatement();
+                statement.execute(students);
+                statement.execute(courses);
+                statement.execute(reviews);
+            } catch (SQLException e) {
+                throw new IllegalStateException(e);
+            }
         }
     }
 
@@ -213,7 +212,7 @@ public class DatabaseMngr {
         catch(SQLException sq){
             sq.printStackTrace();
         }
-        return !exists;
+        return exists;
     }
     public boolean reviewExists(Review r, Student s) throws SQLException{
         isManagerConnected();
@@ -223,7 +222,7 @@ public class DatabaseMngr {
         }
         try{
             Statement statement = connection.createStatement();
-            ResultSet rs  = statement.executeQuery("SELECT * FROM REVIEWS WHERE coursenumber =" + r.getCourse() + "  AND   student_name = " +
+            ResultSet rs  = statement.executeQuery("SELECT * FROM REVIEWS WHERE coursenumber =" + r.getCourse().getNumber() + "  AND   student_name = " +
                     "studentnumber = "+ s);
             exists = rs.next();
         }
@@ -232,26 +231,27 @@ public class DatabaseMngr {
         }
         return !exists;
     }
-    public Review getReview(Course course){
+    public Review getReview(Course course) throws SQLException {
         isManagerConnected();
         if (!doesTableExist(connection, "REVIEWS")) {
             throw new IllegalStateException("Reviews table doesn't exist");
         }
-        try{
-        String command = "SELECT * FROM REVIEWS WHERE courseNumber = " + course;
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(command);
-        if(rs.next()){
-            Integer id = rs.getInt("id");
-            String name = rs.getString("student_name");
-            Integer course = rs.getInt("course_number");
-            String message = rs.getString("message");
-            Integer rating = rs.getInt("rating");
-            Review review = new Review(name, course, message, rating);
-            return review;
+        try {
+            String command = "SELECT * FROM REVIEWS WHERE courseNumber = " + course;
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(command);
+            if (rs.next()) {
+                Integer id = rs.getInt("id");
+                String name = rs.getString("student_name");
+                Integer course = rs.getInt("course_number");
+                String message = rs.getString("message");
+                Integer rating = rs.getInt("rating");
+                Review review = new Review(name, course, message, rating);
+                return review;
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
         }
-    } catch (SQLException e) {
-        throw new IllegalStateException(e);
     }
 
     public boolean newCourse(Course c) throws SQLException{
@@ -274,7 +274,6 @@ public class DatabaseMngr {
     public Student getStudent(Student s) throws SQLException{
         isManagerConnected();
         Student new_s = new Student();
-        Boolean exists = false;
         if(!doesTableExist(connection,"STUDENTS")){
             throw new IllegalStateException("Students table doesn't exist");
         }
@@ -287,6 +286,28 @@ public class DatabaseMngr {
             sq.printStackTrace();
         }
         return new_s;
+    }
+
+    public List<Review> getReviews () throws SQLException{
+        isManagerConnected();
+        List<Review> list = new ArrayList<>();
+        if(!doesTableExist(connection,"REVIEWS")){
+            throw new IllegalStateException("Students table doesn't exist");
+        }
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs  = statement.executeQuery("SELECT r.id, r.message, r.rating, s.name AS student_name,s.password, c.department, c.Catalog_Number " +
+                    " FROM REVIEWS r JOIN STUDENTS s ON r.student_name = s.name JOIN COURSES c ON r.course_number = c.Catalog_Number;");
+            while(rs.next()){
+                Student s = new Student(rs.getString(3),rs.getString(4));
+                Course c = new Course(rs.getString(5),rs.getInt(6));
+                list.add(new Review(s,c,rs.getString(1),rs.getInt(2)));
+            }
+        }
+        catch(SQLException sq){
+            sq.printStackTrace();
+        }
+        return list;
     }
 
 }
