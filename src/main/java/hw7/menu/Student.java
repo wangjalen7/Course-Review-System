@@ -1,3 +1,5 @@
+package hw7.menu;
+
 public class Student {
     private String user;
     private String password;

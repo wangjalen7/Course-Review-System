@@ -1,8 +1,11 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.24.1'
 }
 
-
+group 'hw7.menu'
 repositories {
     mavenCentral()
 }
@@ -12,6 +15,8 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20220924'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.3'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'org.testng:testng:7.1.0'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.8.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
@@ -20,4 +25,23 @@ dependencies {
 }
 test {
     useJUnitPlatform()
+}
+javafx {
+    version = '17.0.2'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+jlink {
+    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'app'
+    }
+}
+
+jlinkZip {
+    group = 'distribution'
+}
+application {
+    mainModule = 'hw7'
+    mainClass = 'hw7.gui.menuapp'
 }

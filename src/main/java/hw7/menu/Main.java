@@ -1,7 +1,7 @@
+package hw7.menu;
+
 import java.sql.SQLException;
 import java.util.*;
-
-import static java.lang.System.exit;
 
 public class Main {
 
@@ -65,7 +65,7 @@ public class Main {
                             System.exit(0);
                             break;
                         case 2:
-                            System.out.println("Course:");
+                            System.out.println("hw7.menu.Course:");
                             myObj.nextLine();
                             String core = myObj.nextLine();
                             String d = core.substring(0,core.length()-5);
@@ -80,11 +80,11 @@ public class Main {
                                 System.out.println("Done!");
                             }
                             catch (NoSuchElementException e) {
-                                System.out.println("You have already written a review for this Course");
+                                System.out.println("You have already written a review for this hw7.menu.Course");
                             }
                             continue;
                         case 3:
-                            System.out.println("Course:");
+                            System.out.println("hw7.menu.Course:");
                             myObj.nextLine();
                             String corse = myObj.nextLine();
                             String dep = corse.substring(0,corse.length()-5);

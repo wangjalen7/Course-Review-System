@@ -1,7 +1,9 @@
+package hw7.menu;
+
 import java.sql.SQLException;
 
 public class Test {
-    @org.junit.Test
+
     public void main(){
         try {
             ReviewMngr rm = new ReviewMngr();

@@ -1,3 +1,5 @@
+package hw7.menu;
+
 public class Review {
     private Student student;
     private Course course;

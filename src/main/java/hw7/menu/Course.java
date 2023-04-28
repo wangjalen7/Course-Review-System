@@ -1,3 +1,5 @@
+package hw7.menu;
+
 public class Course {
     private String department;
     private int number;

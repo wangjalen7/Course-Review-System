@@ -1,3 +1,5 @@
+package hw7.menu;
+
 import java.util.List;
 import java.sql.*;
 import java.util.*;
