@@ -80,7 +80,6 @@ public class DatabaseMngr {
             } catch (SQLException e) {
                 // Print the error message to understand the issue better
                 e.printStackTrace();
-                System.out.println("");
             }
         }
 
@@ -91,7 +90,6 @@ public class DatabaseMngr {
             } catch (SQLException e) {
                 // Print the error message to understand the issue better
                 e.printStackTrace();
-                System.out.println("");
             }
         }
         if (doesTableExist(connection, "REVIEWS")) {
@@ -101,7 +99,6 @@ public class DatabaseMngr {
             } catch (SQLException e) {
                 // Print the error message to understand the issue better
                 e.printStackTrace();
-                System.out.println("");
             }
         }
         else if(!doesTableExist(connection, "COURSES") && !doesTableExist(connection, "STUDENTS") && !doesTableExist(connection, "REVIEWS")) {
@@ -119,7 +116,6 @@ public class DatabaseMngr {
             } catch (SQLException e) {
                 // Print the error message to understand the issue better
                 e.printStackTrace();
-                System.out.println("");
             }
         }
 
@@ -130,7 +126,6 @@ public class DatabaseMngr {
             } catch (SQLException e) {
                 // Print the error message to understand the issue better
                 e.printStackTrace();
-                System.out.println("");
             }
         }
         if (doesTableExist(connection, "REVIEWS")) {
@@ -140,7 +135,6 @@ public class DatabaseMngr {
             } catch (SQLException e) {
                 // Print the error message to understand the issue better
                 e.printStackTrace();
-                System.out.println("");
             }
         }
         else if(!doesTableExist(connection, "COURSES") && !doesTableExist(connection, "STUDENTS") && !doesTableExist(connection, "REVIEWS")) {
@@ -200,7 +194,7 @@ public class DatabaseMngr {
 
     public boolean studentExists(Student s) throws SQLException{
         isManagerConnected();
-        Boolean exists = false;
+        boolean exists = false;
         if(!doesTableExist(connection,"STUDENTS")){
             throw new IllegalStateException("Students table doesn't exist");
         }
@@ -231,28 +225,6 @@ public class DatabaseMngr {
         }
         return !exists;
     }
-    public Review getReview(Course course) throws SQLException {
-        isManagerConnected();
-        if (!doesTableExist(connection, "REVIEWS")) {
-            throw new IllegalStateException("Reviews table doesn't exist");
-        }
-        try {
-            String command = "SELECT * FROM REVIEWS WHERE courseNumber = " + course;
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(command);
-            if (rs.next()) {
-                Integer id = rs.getInt("id");
-                String name = rs.getString("student_name");
-                Integer course = rs.getInt("course_number");
-                String message = rs.getString("message");
-                Integer rating = rs.getInt("rating");
-                Review review = new Review(name, course, message, rating);
-                return review;
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
-    }
 
     public boolean newCourse(Course c) throws SQLException{
         isManagerConnected();
@@ -262,7 +234,8 @@ public class DatabaseMngr {
         }
         try{
             Statement statement = connection.createStatement();
-            ResultSet rs  = statement.executeQuery("SELECT * FROM STUDENTS WHERE id = " + c.getNumber());
+            ResultSet rs  = statement.executeQuery("SELECT * FROM COURSES WHERE Catalog_Number = " + c.getNumber() + " AND department = '"
+                    + c.getDepartment() + "'");
             exists = rs.next();
         }
         catch(SQLException sq){
@@ -280,7 +253,7 @@ public class DatabaseMngr {
         try{
             Statement statement = connection.createStatement();
             ResultSet rs  = statement.executeQuery("SELECT * FROM STUDENTS WHERE name = '" + s.getUser() + "'");
-            new_s = new Student(rs.getString(0),rs.getString(1));
+            new_s = new Student(rs.getString(2),rs.getString(3));
         }
         catch(SQLException sq){
             sq.printStackTrace();
@@ -288,7 +261,7 @@ public class DatabaseMngr {
         return new_s;
     }
 
-    public List<Review> getReviews () throws SQLException{
+    public List<Review> getReviews(Course c) throws SQLException{
         isManagerConnected();
         List<Review> list = new ArrayList<>();
         if(!doesTableExist(connection,"REVIEWS")){
@@ -297,17 +270,38 @@ public class DatabaseMngr {
         try{
             Statement statement = connection.createStatement();
             ResultSet rs  = statement.executeQuery("SELECT r.id, r.message, r.rating, s.name AS student_name,s.password, c.department, c.Catalog_Number " +
-                    " FROM REVIEWS r JOIN STUDENTS s ON r.student_name = s.name JOIN COURSES c ON r.course_number = c.Catalog_Number;");
+                    " FROM REVIEWS r JOIN STUDENTS s ON r.student_name = s.name JOIN COURSES c ON r.course_number = c.Catalog_Number WHERE c.department = '"
+            + c.getDepartment() + "' AND c.Catalog_Number = " + c.getNumber());
             while(rs.next()){
-                Student s = new Student(rs.getString(3),rs.getString(4));
-                Course c = new Course(rs.getString(5),rs.getInt(6));
-                list.add(new Review(s,c,rs.getString(1),rs.getInt(2)));
+                Student s = new Student(rs.getString(4),rs.getString(5));
+                Course cs = new Course(rs.getString(6),rs.getInt(7));
+                list.add(new Review(s,cs,rs.getString(2),rs.getInt(3)));
             }
         }
         catch(SQLException sq){
             sq.printStackTrace();
         }
         return list;
+    }
+
+    public boolean first(Student s, Course c){
+        isManagerConnected();
+        boolean alreadywritten = false;
+        try{
+            if(!doesTableExist(connection,"REVIEWS")){
+                throw new IllegalStateException("Students table doesn't exist");
+            }
+            Statement statement = connection.createStatement();
+            ResultSet rs  = statement.executeQuery("SELECT r.id, r.message, r.rating, s.name AS student_name,s.password, c.department, c.Catalog_Number " +
+                    " FROM REVIEWS r JOIN STUDENTS s ON r.student_name = s.name JOIN COURSES c ON r.course_number = c.Catalog_Number WHERE c.department = '"
+                    + c.getDepartment() + "' AND c.Catalog_Number = " + c.getNumber() + " AND s.name = '"  + s.getUser() + "'");
+            alreadywritten = rs.next();
+
+        }
+        catch(SQLException sq){
+            sq.printStackTrace();
+        }
+        return !alreadywritten;
     }
 
 }

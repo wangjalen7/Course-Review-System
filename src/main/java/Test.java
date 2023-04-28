@@ -5,6 +5,7 @@ public class Test {
     public void main(){
         try {
             ReviewMngr rm = new ReviewMngr();
+            rm.logout();
         }
         catch(SQLException s){
 

@@ -21,18 +21,24 @@ public class ReviewMngr {
     }
 
     public void rate(String msg, int rating){
-
-        try {
-            db.addReview(new Review(student,course,msg,rating));
+        if(db.first(student,course)) {
+            try {
+                db.addReview(new Review(student, course, msg, rating));
+                if (db.newCourse(course))
+                    db.addCourse(course);
+                if (!db.studentExists(student))
+                    db.addStudent(student);
+            } catch (SQLException s) {
+                s.printStackTrace();
+            }
         }
-        catch(SQLException  s){
-            s.printStackTrace();
+        else{
+            throw new NoSuchElementException();
         }
     }
 
     public void login(Student s) throws SQLException{
-
-            if (db.studentExists(s)) {
+            if (db.studentExists(s) && db.getStudent(s).getPassword().equals(s.getPassword())) {
                 student = db.getStudent(s);
             } else {
                 throw new NoSuchElementException();
@@ -43,6 +49,9 @@ public class ReviewMngr {
             if (!db.studentExists(s)) {
                 db.addStudent(s);
                 student = s;
+            }
+            else{
+                throw new NoSuchElementException();
             }
     }
 
@@ -61,11 +70,22 @@ public class ReviewMngr {
     public List<Review> output(){
         List<Review> l = new ArrayList<>();
         try {
-            return db.getReviews();
+            return db.getReviews(course);
         }catch (SQLException s){
 
         }
         return l;
+    }
+
+    public double Average (){
+        int sum = 0;
+        double total = 0;
+        List<Review> l = output();
+        for(Review r: l){
+            sum += r.getRating();
+            total++;
+        }
+        return sum/total;
     }
 
     public void logout(){

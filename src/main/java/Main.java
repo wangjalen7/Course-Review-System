@@ -1,48 +1,57 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.exit;
 
-public class main {
+public class Main {
 
-    login login = new login();
-    DatabaseMngr manager = new DatabaseMngr();
-    Student student;
-    public void main(String args[]) throws SQLException {
-   menu:     while(true) {
+     static ReviewMngr manager;
+    public static void main(String args[]) throws SQLException {
             Scanner myObj = new Scanner(System.in);
+            manager = new ReviewMngr();
             System.out.println("Welcome to course program! are you a new student or " +
                     "do you already have an account?");
+    menu:   while(true){
             System.out.println("Say n for new and e for existing");
             String choice = myObj.nextLine();
             if (choice.equals("n")) {
-                System.out.println("ok, what is your user name and pw?");
+                System.out.println("Username:");
                 String username = myObj.nextLine();
+                System.out.println("Password:");
                 String password = myObj.nextLine();
-                System.out.println("now confirm password");
+                System.out.println("Confirm Password:");
                 String pw = myObj.nextLine();
                 if (password.equals(pw)) {
-                    student = new Student(username, password);
-
-
+                    Student student = new Student(username, password);
+                    try {
+                        manager.register(student);
+                        System.out.println("Registered and Logged In!");
+                    }
+                    catch(NoSuchElementException e){
+                        System.out.println("Username must be unique");
+                        continue;
+                    }
                 } else {
                     System.out.println("error, try again, wrong password");
+                    continue;
                 }
             } else if (choice.equals("e")) {
-                System.out.println("ok, what is your user name and pw?");
+                System.out.println("Username:");
                 String username = myObj.nextLine();
+                System.out.println("Password:");
                 String password = myObj.nextLine();
-                student = new Student(username, password);
-                if (manager.studentExists(student) == true) {
-                    System.out.println("good, let us continue");
-                } else {
-                    System.out.println("either username or password is incorrect");
+                Student student = new Student(username, password);
+                try{
+                    manager.login(student);
+                    System.out.println("Logged In!");
+                }
+                catch(NoSuchElementException e){
+                    System.out.println("Incorrect username or password");
+                    continue;
                 }
             }
       choices:      while (true) {
-                System.out.println("press 1 to exit, press 2 to select a class for reviewing, 3 for reading review,  4 for finding average numeric press");
+                System.out.println("press 1 to exit, press 2 to select a class for reviewing, 3 for reading review, 4 to return to main menu");
                 try {
                     Integer number = myObj.nextInt();
                     switch (number) {
@@ -50,28 +59,36 @@ public class main {
                             System.exit(0);
                             break;
                         case 2:
-                            System.out.println("what is course id?");
-                            String id = myObj.nextLine();
+                            System.out.println("what is course department?");
+                            myObj.nextLine();
+                            String d = myObj.nextLine();
                             System.out.println("what is course number?");
                             String num = myObj.nextLine();
-                            addReview(id, Integ, student);
-                            break;
+                            manager.chooseCourse(new Course(d,Integer.parseInt(num)));
+                            System.out.println("Enter rating(1-5):");
+                            String rate = myObj.nextLine();
+                            System.out.println("Add comment:");
+                            String msg = myObj.nextLine();
+                            try {
+                                manager.rate(msg, Integer.parseInt(rate));
+                                System.out.println("Done!");
+                            }
+                            catch (NoSuchElementException e) {
+                                System.out.println("You have already written a review for this Course");
+                            }
+                            continue;
                         case 3:
-                            System.out.println("what is course id?");
-                            String id = myObj.nextLine();
+                            System.out.println("what is course department?");
+                            myObj.nextLine();
+                            String dep = myObj.nextLine();
                             System.out.println("what is course number?");
-                            String number = myObj.nextLine();
-                            getReviews(id, number);
-                            break;
+                            String id = myObj.nextLine();
+                            manager.chooseCourse(new Course(dep,Integer.parseInt(id)));
+                            printReviews(manager.output());
+                            System.out.println("Average Rating: " + manager.Average());
+                            continue;
                         case 4:
-                            System.out.println("what is course id?");
-                            String id = myObj.nextLine();
-                            System.out.println("what is course number?");
-                            String number = myObj.nextLine();
-                            getAverage(id, number);
-                            break;
-                        case 5:
-                            break menu;
+                            break choices;
                         default:
                             System.out.println("wrong number");
                             break;
@@ -90,51 +107,12 @@ public class main {
         }
 
     }
-    public Void getReviews(String a, String b) throws  SQLException{
-        Course course = new Course(a, b);
-        if(manager.newCourse(course) == false){
-            System.out.println("course is not in database");
-        }
-        else if(manager.getReviewsByCourse(course) == null){
-            System.out.println("no reviews");
-        }
-        else{
-            for(Review r: manager.getReviewsByCourse(course)){
-                System.out.println(r.getMessage());
-            }
-        }
-
-    }
-    public Void getAverage(String a, String b){
-        Course course = new Course(a, b);
-        ArrayList<Review> reviews = manager.getReviewsByCourse(course);
-        double x = 0;
-        double y = 0;
-        for(Review r: reviews){
-           x+= r.getRating();
-           y+=1;
-        }
-        System.out.println(x/y);
-    }
-
-
-
-    public void addReview(String a, String b, Student student) throws SQLException {
-        Course course = new Course(a, b);
-        if (manager.newCourse(course) == false) {
-            manager.addCourse(course);
-        }
-        if (manager.reviewExists(course, student) == true {
-            System.out.println("review exists");
-        }
-        else{
-            Scanner scan = new Scanner(System.in);
-            System.out.println("What do you want to Say?");
-            String Review = scan.nextLine();
-            System.out.println("What is your numeric review");
-            int score = scan.nextInt();
-            Review review = new Review(student, course, Review, score);
-            manager.addReview(review);
+    public static void printReviews(List<Review> l) throws  SQLException{
+        int i = 1;
+        for(Review r : l){
+            System.out.println(i + ": " + r.getCourse().getDepartment() + " " + r.getCourse().getNumber() + " | "
+            + r.getStudent().getUser() + " | " + r.getRating() + " | " + r.getMessage());
+            i++;
         }
     }
 }
