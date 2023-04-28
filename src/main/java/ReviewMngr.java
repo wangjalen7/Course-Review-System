@@ -91,6 +91,9 @@ public class ReviewMngr {
     public void logout(){
         student = null;
 
+    }
+
+    public void exit(){
         try {
             db.disconnect();
         }

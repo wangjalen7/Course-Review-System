@@ -12,7 +12,7 @@ public class Main {
             System.out.println("Welcome to course program! are you a new student or " +
                     "do you already have an account?");
     menu:   while(true){
-            System.out.println("Say n for new and e for existing");
+            System.out.println(" n for new | e for existing | l to logout | d to exit");
             String choice = myObj.nextLine();
             if (choice.equals("n")) {
                 System.out.println("Username:");
@@ -49,8 +49,14 @@ public class Main {
                     System.out.println("Incorrect username or password");
                     continue;
                 }
+            } else if (choice.equals("d")) {
+                manager.exit();
+                break;
+            } else if (choice.equals("l")) {
+                manager.logout();
+                continue;
             }
-      choices:      while (true) {
+        choices:      while (true) {
                 System.out.println("press 1 to exit, press 2 to select a class for reviewing, 3 for reading review, 4 to return to main menu");
                 try {
                     Integer number = myObj.nextInt();
@@ -59,11 +65,11 @@ public class Main {
                             System.exit(0);
                             break;
                         case 2:
-                            System.out.println("what is course department?");
+                            System.out.println("Course:");
                             myObj.nextLine();
-                            String d = myObj.nextLine();
-                            System.out.println("what is course number?");
-                            String num = myObj.nextLine();
+                            String core = myObj.nextLine();
+                            String d = core.substring(0,core.length()-5);
+                            String num = core.substring(core.length()-4);
                             manager.chooseCourse(new Course(d,Integer.parseInt(num)));
                             System.out.println("Enter rating(1-5):");
                             String rate = myObj.nextLine();
@@ -78,22 +84,21 @@ public class Main {
                             }
                             continue;
                         case 3:
-                            System.out.println("what is course department?");
+                            System.out.println("Course:");
                             myObj.nextLine();
-                            String dep = myObj.nextLine();
-                            System.out.println("what is course number?");
-                            String id = myObj.nextLine();
+                            String corse = myObj.nextLine();
+                            String dep = corse.substring(0,corse.length()-5);
+                            String id = corse.substring(corse.length()-4);
                             manager.chooseCourse(new Course(dep,Integer.parseInt(id)));
                             printReviews(manager.output());
                             System.out.println("Average Rating: " + manager.Average());
                             continue;
                         case 4:
-                            break choices;
+                            continue menu;
                         default:
                             System.out.println("wrong number");
                             break;
                     }
-                    break choices;
                 } catch (InputMismatchException e) {
                     System.out.println("wrong inputt");
                     break choices;
