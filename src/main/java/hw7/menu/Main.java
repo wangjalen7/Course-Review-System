@@ -9,7 +9,7 @@ public class Main {
     public static void main(String args[]) throws SQLException {
             Scanner myObj = new Scanner(System.in);
             manager = new ReviewMngr();
-            System.out.println("Welcome to course program! are you a new student or " +
+            System.out.println("Welcome to course program! Are you a new student or " +
                     "do you already have an account?");
     menu:   while(true){
             System.out.println(" n for new | e for existing | l to logout | d to exit");
@@ -32,7 +32,7 @@ public class Main {
                         continue;
                     }
                 } else {
-                    System.out.println("error, try again, wrong password");
+                    System.out.println("Error, try again, wrong password");
                     continue;
                 }
             } else if (choice.equals("e")) {
@@ -57,7 +57,7 @@ public class Main {
                 continue;
             }
         choices:      while (true) {
-                System.out.println("press 1 to exit, press 2 to select a class for reviewing, 3 for reading review, 4 to return to main menu");
+                System.out.println("press 1 to exit, press 2 to select a class for reviewing, press 3 for reading review, press 4 to return to main menu");
                 try {
                     Integer number = myObj.nextInt();
                     switch (number) {
@@ -68,7 +68,7 @@ public class Main {
                             System.out.println("hw7.menu.Course:");
                             myObj.nextLine();
                             String core = myObj.nextLine();
-                            String d = core.substring(0,core.length()-5);
+                            String d = core.substring(0,core.length()-4);
                             String num = core.substring(core.length()-4);
                             manager.chooseCourse(new Course(d,Integer.parseInt(num)));
                             System.out.println("Enter rating(1-5):");
@@ -87,7 +87,7 @@ public class Main {
                             System.out.println("hw7.menu.Course:");
                             myObj.nextLine();
                             String corse = myObj.nextLine();
-                            String dep = corse.substring(0,corse.length()-5);
+                            String dep = corse.substring(0,corse.length()-4);
                             String id = corse.substring(corse.length()-4);
                             manager.chooseCourse(new Course(dep,Integer.parseInt(id)));
                             printReviews(manager.output());
