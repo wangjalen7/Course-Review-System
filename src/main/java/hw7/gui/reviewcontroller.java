@@ -27,7 +27,6 @@ public class reviewcontroller {
     private Button read = new Button();
 
 
-
     @FXML
     protected void write(){
 

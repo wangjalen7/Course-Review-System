@@ -68,7 +68,7 @@ public class Main {
                             System.out.println("hw7.menu.Course:");
                             myObj.nextLine();
                             String core = myObj.nextLine();
-                            String d = core.substring(0,core.length()-4);
+                            String d = core.substring(0,core.length()-5);
                             String num = core.substring(core.length()-4);
                             manager.chooseCourse(new Course(d,Integer.parseInt(num)));
                             System.out.println("Enter rating(1-5):");
@@ -87,11 +87,16 @@ public class Main {
                             System.out.println("hw7.menu.Course:");
                             myObj.nextLine();
                             String course = myObj.nextLine();
-                            String dep = course.substring(0,course.length()-4);
-                            String id = course.substring(course.length()-4);
-                            manager.chooseCourse(new Course(dep,Integer.parseInt(id)));
-                            printReviews(manager.output());
-                            System.out.println("Average Rating: " + manager.Average());
+                            try {
+                                String dep = course.substring(0,course.length()-5);
+                                String id = course.substring(course.length()-4);
+                                manager.chooseCourse(new Course(dep,Integer.parseInt(id)));
+                                printReviews(manager.output());
+                                System.out.println("Average Rating: " + manager.Average());
+                            }
+                            catch (NumberFormatException e){
+                                System.out.println("Invalid class");
+                            }
                             continue;
                         case 4:
                             continue menu;
