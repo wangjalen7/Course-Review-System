@@ -1,5 +1,6 @@
 package hw7.gui;
 import hw7.menu.Course;
+import hw7.menu.Review;
 import hw7.menu.ReviewMngr;
 import hw7.menu.Student;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,49 +34,45 @@ public class reviewcontroller {
     public Button Submit;
     public TextField department;
 
-    public PasswordField number;
+    public TextField number;
     ReviewMngr manager = new ReviewMngr();
     @FXML
     private Button read = new Button();
-    public TextField usernameField = new TextField();
-    public TextField passwordField = new PasswordField();
+//    public TextField usernameField = new TextField();
+//    public TextField passwordField = new PasswordField();
     public Label feedback = new Label();
 
     @FXML
     protected void write(){
-//        System.out.println("hw7.menu.Course:");
-//        myObj.nextLine();
-//        String core = myObj.nextLine();
-//        String d = core.substring(0,core.length()-4);
-//        String num = core.substring(core.length()-4);
-//        manager.chooseCourse(new Course(d,Integer.parseInt(num)));
-//        System.out.println("Enter rating(1-5):");
-//        String rate = myObj.nextLine();
-//        System.out.println("Add comment:");
-//        String msg = myObj.nextLine();
-//        try {
-//            manager.rate(msg, Integer.parseInt(rate));
-//            System.out.println("Done!");
-//        }
-//        catch (NoSuchElementException e) {
-//            System.out.println("You have already written a review for this hw7.menu.Course");
-//        }
         ratinglabel.setVisible(true);
         rating.setVisible(true);
         commentlabel.setVisible(true);
         comment.setVisible(true);
         Submit.setVisible(true);
-        Student student = new Student(usernameField.getText(), passwordField.getText());
+    }
+    public void submitreview() {
+        String d = department.getText();
+        String num = number.getText();
+        manager.chooseCourse(new Course(d,Integer.parseInt(num)));
+        String rate = rating.getText();
+        String message = comment.getText();
         try {
-            manager.register(student);
-            feedback.setText("Registered and Logged In!");
-            feedback.setVisible(true);
-        } catch (NoSuchElementException e) {
-            feedback.setText("Username must be unique");
+            manager.rate(message, Integer.parseInt(rate));
+            feedback.setText("Done!");
             feedback.setVisible(true);
         }
+        catch (NoSuchElementException e) {
+            feedback.setText("You have already written a review for this course");
+            feedback.setVisible(true);
+        }
+        rating.clear();
+        comment.clear();
+        ratinglabel.setVisible(false);
+        rating.setVisible(false);
+        commentlabel.setVisible(false);
+        comment.setVisible(false);
+        Submit.setVisible(false);
     }
-
     @FXML
     protected void read(){
 
@@ -98,5 +96,6 @@ public class reviewcontroller {
             e.printStackTrace();
         }
     }
+
 
 }
