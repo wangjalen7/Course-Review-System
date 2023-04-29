@@ -11,13 +11,17 @@ public class ReviewMngr {
 
     private DatabaseMngr db;
 
-    public ReviewMngr() throws SQLException{
-        db = new DatabaseMngr();
+    public ReviewMngr() {
+
         try {
+            db = new DatabaseMngr();
             db.connect();
             db.createTables();
         }
         catch (ClassNotFoundException c){
+
+        }
+        catch(SQLException s){
 
         }
     }
@@ -39,22 +43,31 @@ public class ReviewMngr {
         }
     }
 
-    public void login(Student s) throws SQLException{
+    public void login(Student s){
+        try {
             if (db.studentExists(s) && db.getStudent(s).getPassword().equals(s.getPassword())) {
                 student = db.getStudent(s);
             } else {
                 throw new NoSuchElementException();
             }
+        }
+        catch(SQLException sq){
+
+        }
     }
 
-    public void register(Student s) throws SQLException{
+    public void register(Student s) {
+        try {
             if (!db.studentExists(s)) {
                 db.addStudent(s);
                 student = s;
-            }
-            else{
+            } else {
                 throw new NoSuchElementException();
             }
+        }
+        catch (SQLException sq){
+
+        }
     }
 
     public void chooseCourse(Course c) {
