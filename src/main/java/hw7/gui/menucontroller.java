@@ -61,6 +61,7 @@ public class menucontroller {
             manager.register(student);
             feedback.setText("Registered and Logged In!");
             feedback.setVisible(true);
+            switchToMainScreen();
         } catch (NoSuchElementException e) {
             feedback.setText("Username must be unique");
             feedback.setVisible(true);

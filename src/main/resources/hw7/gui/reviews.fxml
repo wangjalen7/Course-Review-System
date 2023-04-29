@@ -37,8 +37,9 @@
         <Label text="Course Number:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
         <PasswordField fx:id="number" GridPane.columnIndex="3" GridPane.rowIndex="2" />
         <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-            <Button fx:id="Write Review" mnemonicParsing="false" text="Login" onMouseClicked= "#login"/>
-            <Button fx:id="Read Reviews" mnemonicParsing="false" text="Register" onMouseClicked= "#register"/>
+            <Button fx:id="write" mnemonicParsing="false" text="Write Review" onMouseClicked= "#write"/>
+            <Button fx:id="read" mnemonicParsing="false" text="Read Review" onMouseClicked= "#read"/>
+            <Button fx:id="return" mnemonicParsing="false" text="Return" onMouseClicked= "#returns"/>
         </HBox>
                 <Label text = "hi" fx:id="reviews" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" visible="true"/>
     </children>

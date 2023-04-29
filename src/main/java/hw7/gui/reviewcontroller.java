@@ -23,5 +23,38 @@ import javafx.stage.Stage;
 
 import java.security.Key;
 public class reviewcontroller {
+    @FXML
+    private Button read = new Button();
+
+
+
+    @FXML
+    protected void write(){
+
+    }
+
+    @FXML
+    protected void read(){
+
+    }
+
+    @FXML
+    protected void returns(){
+        try {
+            // Load the main FXML file
+            FXMLLoader root =  new FXMLLoader(getClass().getResource("menu.fxml"));
+
+            // Create a new Scene with the main FXML file
+            Scene scene = new Scene(root.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()-20);
+
+            // Get the current stage
+            Stage stage = (Stage) read.getScene().getWindow();
+
+            // Set the new Scene on the stage
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
