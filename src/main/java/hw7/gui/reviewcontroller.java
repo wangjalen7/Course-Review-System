@@ -38,23 +38,17 @@ public class reviewcontroller extends menucontroller{
     private Label reviews = new Label();
     @FXML
     private TextField department = new TextField();
-
     @FXML
     private TextField number = new TextField();
-
     @FXML
     private Button average = new Button();
-    @FXML
-    private Button write = new Button();
-
     @FXML
     private Button returns = new Button();
 
     @FXML
     private TextField rating = new TextField();
-
-    //@FXML
-    //private TextField review = new TextField();
+    @FXML
+    private TextField review = new TextField();
 
     @FXML
     protected void write(){
@@ -76,6 +70,7 @@ public class reviewcontroller extends menucontroller{
             feedback2.setVisible(true);
         }
         catch (NoSuchElementException e) {
+            e.printStackTrace();
             feedback2.setText("You have already written a review for this course");
             feedback2.setVisible(true);
         }
