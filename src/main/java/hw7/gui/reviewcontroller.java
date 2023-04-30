@@ -38,10 +38,12 @@ public class reviewcontroller {
     private TextField number = new TextField();
 
     @FXML
+    private Button average = new Button();
+    @FXML
     private Button write = new Button();
 
     @FXML
-    private Button Return = new Button();
+    private Button returns = new Button();
 
     @FXML
     private TextField rating = new TextField();
@@ -79,7 +81,7 @@ public class reviewcontroller {
         }
     }
     @FXML
-    protected void setReview(){
+    protected void write(){
 
         try{
             review.isVisible(true);
@@ -97,7 +99,7 @@ public class reviewcontroller {
         }
     }
     @FXML
-    protected void getNumber(){
+    protected void average(){
         try{
             Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
             manager.chooseCourse(c);
@@ -109,7 +111,7 @@ public class reviewcontroller {
         }
     }
     @FXML
-    protected void getReview(){
+    protected void read(){
         try{
             Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
             manager.chooseCourse(c);
