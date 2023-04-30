@@ -36,6 +36,7 @@ public class menucontroller {
     public TextField usernameField = new TextField();
 
     public PasswordField passwordField = new PasswordField();
+    public PasswordField confirm = new PasswordField();
 
     public Label feedback = new Label();
 
@@ -57,14 +58,20 @@ public class menucontroller {
 
     @FXML
     protected void register() {
-        Student student = new Student(usernameField.getText(), passwordField.getText());
-        try {
-            manager.register(student);
-            feedback.setText("Registered and Logged In!");
-            feedback.setVisible(true);
-            switchToMainScreen();
-        } catch (NoSuchElementException e) {
-            feedback.setText("Username must be unique");
+        if(passwordField.getText().equals(confirm.getText())) {
+            Student student = new Student(usernameField.getText(), passwordField.getText());
+            try {
+                manager.register(student);
+                feedback.setText("Registered and Logged In!");
+                feedback.setVisible(true);
+                switchToMainScreen();
+            } catch (NoSuchElementException e) {
+                feedback.setText("Username must be unique");
+                feedback.setVisible(true);
+            }
+        }
+        else{
+            feedback.setText("Passwords Must Match");
             feedback.setVisible(true);
         }
     }

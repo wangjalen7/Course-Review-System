@@ -39,8 +39,8 @@ public class readcontroller {
         avg.setText("Average Rating: " + menucontroller.manager.Average());
         List<Review> list =  menucontroller.manager.output();
         for(Review r: list){
-                Label l = new Label(i + ": " + r.getCourse().getDepartment() + " " + r.getCourse().getNumber() + " | "
-                        + r.getStudent().getUser() + " | " + r.getRating() + " | " + r.getMessage());
+                Label l = new Label(i + ": " + r.getCourse().getDepartment() + " " + r.getCourse().getNumber()
+                         + " | " + r.getRating() + " | " + r.getMessage());
                 reviews.getChildren().add(l);
                 i++;
         }
