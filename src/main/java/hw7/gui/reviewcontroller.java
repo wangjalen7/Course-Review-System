@@ -25,7 +25,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.security.Key;
-public class reviewcontroller {
+public class reviewcontroller extends menucontroller{
+    public Label ratinglabel;
+    public Label commentlabel;
+    public TextField comment;
+    public Button Submit;
+    public Label feedback2;
     ReviewMngr manager = new ReviewMngr();
     @FXML
     private Button read = new Button();
@@ -48,18 +53,41 @@ public class reviewcontroller {
     @FXML
     private TextField rating = new TextField();
 
-
-    @FXML
-    private TextField review = new TextField();
+    //@FXML
+    //private TextField review = new TextField();
 
     @FXML
     protected void write(){
-
+        ratinglabel.setVisible(true);
+        rating.setVisible(true);
+        commentlabel.setVisible(true);
+        comment.setVisible(true);
+        Submit.setVisible(true);
     }
 
-    @FXML
-    protected void read(){
-
+    public void submitreview() {
+        Course course = new Course(department.getText(), Integer.parseInt(number.getText()));
+        String rate = rating.getText();
+        String message = comment.getText();
+        manager.chooseCourse(course);
+        try {
+            manager.rate(message, Integer.parseInt(rate));
+            feedback2.setText("Done!");
+            feedback2.setVisible(true);
+        }
+        catch (NoSuchElementException e) {
+            feedback2.setText("You have already written a review for this course");
+            feedback2.setVisible(true);
+        }
+        department.clear();
+        number.clear();
+        rating.clear();
+        comment.clear();
+        ratinglabel.setVisible(false);
+        rating.setVisible(false);
+        commentlabel.setVisible(false);
+        comment.setVisible(false);
+        Submit.setVisible(false);
     }
 
     @FXML
@@ -80,51 +108,39 @@ public class reviewcontroller {
             e.printStackTrace();
         }
     }
-    @FXML
-    protected void write(){
-
-        try{
-            review.isVisible(true);
-            number.isVisible(true);
-            String message = review.getText();
-            Integer rating = Integer.parseInt(number.getText());
-            Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
-            manager.chooseCourse(c);
-            manager.rate(message, rating);
-            review.clear();
-            number.clear();
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
+//    @FXML
+//    protected void write(){
+//
+//        try{
+//            review.isVisible(true);
+//            number.isVisible(true);
+//            String message = review.getText();
+//            Integer rating = Integer.parseInt(number.getText());
+//            Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
+//            manager.chooseCourse(c);
+//            manager.rate(message, rating);
+//            review.clear();
+//            number.clear();
+//        }
+//        catch(IOException e){
+//            e.printStackTrace();
+//        }
+//    }
     @FXML
     protected void average(){
-        try{
-            Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
-            manager.chooseCourse(c);
-            reviews.setText(Double.toString( manager.Average());
-        }
-
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
+        manager.chooseCourse(c);
+        reviews.setText(Double.toString( manager.Average()));
     }
     @FXML
     protected void read(){
-        try{
-            Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
-            manager.chooseCourse(c);
-            ArrayList<String> messages= new ArrayList<>();
-            for(Review r: manager.output()){
-                messages.add(r.getMessage());
-            }
-            reviews.setText(String.valueOf(messages));
+        Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
+        manager.chooseCourse(c);
+        ArrayList<String> messages= new ArrayList<>();
+        for(Review r: manager.output()){
+            messages.add(r.getMessage());
         }
-
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        reviews.setText(String.valueOf(messages));
     }
 
 
