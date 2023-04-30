@@ -27,6 +27,12 @@ public class reviewcontroller {
     private Button read = new Button();
 
 
+    @FXML
+    private TextField rating = new TextField();
+
+
+    @FXML
+    private TextField review = new TextField();
 
     @FXML
     protected void write(){

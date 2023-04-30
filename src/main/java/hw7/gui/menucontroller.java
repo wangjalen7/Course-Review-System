@@ -68,6 +68,7 @@ public class menucontroller {
         }
     }
 
+
     private void switchToMainScreen(){
         try {
             // Load the main FXML file
