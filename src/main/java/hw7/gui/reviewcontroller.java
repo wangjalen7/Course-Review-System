@@ -108,24 +108,7 @@ public class reviewcontroller extends menucontroller{
             e.printStackTrace();
         }
     }
-//    @FXML
-//    protected void write(){
-//
-//        try{
-//            review.isVisible(true);
-//            number.isVisible(true);
-//            String message = review.getText();
-//            Integer rating = Integer.parseInt(number.getText());
-//            Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
-//            manager.chooseCourse(c);
-//            manager.rate(message, rating);
-//            review.clear();
-//            number.clear();
-//        }
-//        catch(IOException e){
-//            e.printStackTrace();
-//        }
-//    }
+
     @FXML
     protected void average(){
         Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
