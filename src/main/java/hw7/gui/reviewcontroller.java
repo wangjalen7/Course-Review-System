@@ -70,7 +70,6 @@ public class reviewcontroller extends menucontroller{
             feedback2.setVisible(true);
         }
         catch (NoSuchElementException e) {
-            e.printStackTrace();
             feedback2.setText("You have already written a review for this course");
             feedback2.setVisible(true);
         }
