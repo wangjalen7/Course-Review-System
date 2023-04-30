@@ -24,9 +24,10 @@ import javafx.stage.Stage;
 
 import java.security.Key;
 
+
 public class menucontroller {
 
-    ReviewMngr manager = new ReviewMngr();
+    public static ReviewMngr manager = new ReviewMngr();
     @FXML
     public Button login = new Button();
 
@@ -84,5 +85,10 @@ public class menucontroller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    protected void exit(){
+        Platform.exit();
     }
 }

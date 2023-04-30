@@ -45,6 +45,7 @@
         <Button fx:id="login" mnemonicParsing="false" text="Login" onMouseClicked= "#login"/>
         <Button fx:id="register" mnemonicParsing="false" text="Register" onMouseClicked= "#register"/>
     </HBox>
+    <Button  fx:id="exit" mnemonicParsing="false" text="Exit" GridPane.columnIndex="5" GridPane.halignment="CENTER" onMouseClicked="#exit" />
     <Label fx:id="feedback" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" visible="false"/>
 </children>
 </GridPane>

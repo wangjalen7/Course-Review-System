@@ -9,10 +9,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.text.Text?>
-<GridPane fx:id="root" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hw7.gui.reviewcontroller">
+<GridPane fx:id="root" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hw7.gui.writecontroller">
     <padding>
         <Insets bottom="25" left="25" right="25" top="25" />
     </padding>
@@ -33,14 +31,14 @@
         <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Course Department:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-        <TextField fx:id="department" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-        <Label text="Course Number:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-        <TextField fx:id="number" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-        <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-            <Button fx:id="write" mnemonicParsing="false" text="Write Review" onMouseClicked= "#write"/>
-            <Button fx:id="read" mnemonicParsing="false" text="Read Review" onMouseClicked= "#read"/>
-            <Button fx:id="return" mnemonicParsing="false" text="Return" onMouseClicked= "#returns"/>
+        <Label text="Message:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <TextField fx:id="msg" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <Label text="Rating(1-5):" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <TextField fx:id="rating" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+        <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Button fx:id="submit" mnemonicParsing="false" onMouseClicked="#rate" text="Submit" />
         </HBox>
+      <Button  fx:id="exit" mnemonicParsing="false" text="Exit" GridPane.columnIndex="5" GridPane.halignment="CENTER" onMouseClicked="#exit" />
+        <Label fx:id="feedback" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" visible="false"/>
     </children>
 </GridPane>

@@ -1,4 +1,5 @@
 package hw7.gui;
+import hw7.menu.Course;
 import hw7.menu.ReviewMngr;
 import hw7.menu.Student;
 import javafx.fxml.FXMLLoader;
@@ -26,31 +27,54 @@ public class reviewcontroller {
     @FXML
     private Button read = new Button();
 
+    @FXML
+    private TextField number = new TextField();
 
+    public TextField department = new TextField();
 
     @FXML
     protected void write(){
+        try {
+            menucontroller.manager.chooseCourse(new Course(department.getText(),Integer.parseInt(number.getText())));
+            FXMLLoader root =  new FXMLLoader(getClass().getResource("write.fxml"));
+
+            Scene scene = new Scene(root.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()-20);
+
+            Stage stage = (Stage) read.getScene().getWindow();
+
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     @FXML
     protected void read(){
+        try {
+            menucontroller.manager.chooseCourse(new Course(department.getText(),Integer.parseInt(number.getText())));
+            FXMLLoader root =  new FXMLLoader(getClass().getResource("read.fxml"));
 
+            Scene scene = new Scene(root.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()-20);
+
+            Stage stage = (Stage) read.getScene().getWindow();
+
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     protected void returns(){
         try {
-            // Load the main FXML file
             FXMLLoader root =  new FXMLLoader(getClass().getResource("menu.fxml"));
 
-            // Create a new Scene with the main FXML file
             Scene scene = new Scene(root.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()-20);
 
-            // Get the current stage
             Stage stage = (Stage) read.getScene().getWindow();
 
-            // Set the new Scene on the stage
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();

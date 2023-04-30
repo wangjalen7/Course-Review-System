@@ -293,7 +293,7 @@ public class DatabaseMngr {
             if(!doesTableExist(connection,"REVIEWS")){
                 throw new IllegalStateException("Students table doesn't exist");
             }
-            Statement statement = connection.createStatement();
+                Statement statement = connection.createStatement();
             ResultSet rs  = statement.executeQuery("SELECT r.id, r.message, r.rating, s.name AS student_name,s.password, c.department, c.Catalog_Number " +
                     " FROM REVIEWS r JOIN STUDENTS s ON r.student_name = s.name JOIN COURSES c ON r.course_number = c.Catalog_Number WHERE c.department = '"
                     + c.getDepartment() + "' AND c.Catalog_Number = " + c.getNumber() + " AND s.name = '"  + s.getUser() + "'");
