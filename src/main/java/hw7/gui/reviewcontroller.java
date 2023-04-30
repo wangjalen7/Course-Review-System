@@ -101,7 +101,7 @@ public class reviewcontroller {
         try{
             Course c = new Course(department.getText(), Integer.parseInt(number.getText()));
             manager.chooseCourse(c);
-            reviews.setText(manager.Average());
+            reviews.setText(Double.toString( manager.Average());
         }
 
         catch(IOException e){
