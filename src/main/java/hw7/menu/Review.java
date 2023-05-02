@@ -10,10 +10,11 @@ public class Review {
         student = s;
         course = c;
         message = msg;
-        if( rate >= 1 && rate <= 5)
-            rating = rate;
-        else
-            throw new IllegalArgumentException("Rating must be 1-5");
+//        if( rate >= 1 && rate <= 5)
+//            rating = rate;
+//        else
+//            throw new IllegalArgumentException("Rating must be 1-5");
+        setRating(rate);
     }
 
 

@@ -9,10 +9,10 @@ public class Main {
     public static void main(String args[]) throws SQLException {
             Scanner myObj = new Scanner(System.in);
             manager = new ReviewMngr();
-            System.out.println("Welcome to course program! are you a new student or " +
+            System.out.println("Welcome to course program! Are you a new student or " +
                     "do you already have an account?");
     menu:   while(true){
-            System.out.println(" n for new | e for existing | l to logout | d to exit");
+            System.out.println("    n for new | e for existing | l to logout | d to exit");
             String choice = myObj.nextLine();
             if (choice.equals("n")) {
                 System.out.println("Username:");
@@ -32,7 +32,7 @@ public class Main {
                         continue;
                     }
                 } else {
-                    System.out.println("error, try again, wrong password");
+                    System.out.println("Error, try again, wrong password");
                     continue;
                 }
             } else if (choice.equals("e")) {
@@ -56,8 +56,8 @@ public class Main {
                 manager.logout();
                 continue;
             }
-        choices:      while (true) {
-                System.out.println("press 1 to exit, press 2 to select a class for reviewing, 3 for reading review, 4 to return to main menu");
+        choices:    while (true) {
+                System.out.println("press 1 to exit, press 2 to select a class for reviewing, press 3 for reading review, press 4 to return to main menu");
                 try {
                     Integer number = myObj.nextInt();
                     switch (number) {
@@ -86,12 +86,17 @@ public class Main {
                         case 3:
                             System.out.println("hw7.menu.Course:");
                             myObj.nextLine();
-                            String corse = myObj.nextLine();
-                            String dep = corse.substring(0,corse.length()-5);
-                            String id = corse.substring(corse.length()-4);
-                            manager.chooseCourse(new Course(dep,Integer.parseInt(id)));
-                            printReviews(manager.output());
-                            System.out.println("Average Rating: " + manager.Average());
+                            String course = myObj.nextLine();
+                            try {
+                                String dep = course.substring(0,course.length()-5);
+                                String id = course.substring(course.length()-4);
+                                manager.chooseCourse(new Course(dep,Integer.parseInt(id)));
+                                printReviews(manager.output());
+                                System.out.println("Average Rating: " + manager.Average());
+                            }
+                            catch (NumberFormatException e){
+                                System.out.println("Invalid class");
+                            }
                             continue;
                         case 4:
                             continue menu;
@@ -100,18 +105,13 @@ public class Main {
                             break;
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("wrong inputt");
+                    System.out.println("wrong input");
                     break choices;
                 }
             }
         }
     }
-    public void checker(String choice){
-        if(choice.equals("n")){
 
-        }
-
-    }
     public static void printReviews(List<Review> l) throws  SQLException{
         int i = 1;
         for(Review r : l){
