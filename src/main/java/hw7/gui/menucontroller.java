@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.lang.Exception;
+import java.security.PublicKey;
 import java.util.NoSuchElementException;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
@@ -40,10 +41,14 @@ public class menucontroller {
 
     public Label feedback = new Label();
 
+    public Label c = new Label();
+
+    public Button cop = new Button();
+
     @FXML
     protected void login(){
 
-        Student student = new Student(usernameField.getText(),passwordField.getText());
+        Student student = new Student(usernameField.getText().trim(),passwordField.getText().trim());
         try{
             manager.login(student);
             feedback.setText("Logged In!");
@@ -58,8 +63,16 @@ public class menucontroller {
 
     @FXML
     protected void register() {
+        cop.setDisable(false);
+        cop.setVisible(true);
+        c.setVisible(true);
+        confirm.setVisible(true);
+    }
+
+    @FXML
+    protected void confirm(){
         if(passwordField.getText().equals(confirm.getText())) {
-            Student student = new Student(usernameField.getText(), passwordField.getText());
+            Student student = new Student(usernameField.getText().trim(), passwordField.getText().trim());
             try {
                 manager.register(student);
                 feedback.setText("Registered and Logged In!");
@@ -75,6 +88,7 @@ public class menucontroller {
             feedback.setVisible(true);
         }
     }
+
 
 
     private void switchToMainScreen(){

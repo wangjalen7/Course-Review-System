@@ -33,6 +33,13 @@ public TextField rating = new TextField();
 
 public Label feedback = new Label();
 
+    public Label user = new Label();
+
+    @FXML
+    protected void initialize(){
+        user.setText("User: "+menucontroller.manager.getStudent().getUser());
+    }
+
     @FXML
     protected void rate(){
         try {

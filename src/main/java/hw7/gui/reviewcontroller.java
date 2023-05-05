@@ -32,10 +32,19 @@ public class reviewcontroller {
 
     public TextField department = new TextField();
 
+    public Label feedback = new Label();
+
+    public Label user = new Label();
+
+    @FXML
+    protected void initialize(){
+        user.setText("User: "+menucontroller.manager.getStudent().getUser());
+    }
+
     @FXML
     protected void write(){
         try {
-            menucontroller.manager.chooseCourse(new Course(department.getText(),Integer.parseInt(number.getText())));
+            menucontroller.manager.chooseCourse(new Course(department.getText().trim().toUpperCase(),Integer.parseInt(number.getText().trim())));
             FXMLLoader root =  new FXMLLoader(getClass().getResource("write.fxml"));
 
             Scene scene = new Scene(root.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()-20);
@@ -46,6 +55,10 @@ public class reviewcontroller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        catch (IllegalStateException is){
+            feedback.setText("Enter Valid Course Please");
+            feedback.setVisible(true);
+        }
 
 
     }
@@ -53,7 +66,7 @@ public class reviewcontroller {
     @FXML
     protected void read(){
         try {
-            menucontroller.manager.chooseCourse(new Course(department.getText(),Integer.parseInt(number.getText())));
+            menucontroller.manager.chooseCourse(new Course(department.getText().trim().toUpperCase(),Integer.parseInt(number.getText().trim())));
             FXMLLoader root =  new FXMLLoader(getClass().getResource("read.fxml"));
 
             Scene scene = new Scene(root.load(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()-20);
@@ -63,6 +76,10 @@ public class reviewcontroller {
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        catch (IllegalStateException is){
+            feedback.setText("Enter Valid Course Please");
+            feedback.setVisible(true);
         }
     }
 

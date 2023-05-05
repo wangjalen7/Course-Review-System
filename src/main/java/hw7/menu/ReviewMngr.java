@@ -85,11 +85,14 @@ public class ReviewMngr {
     public List<Review> output(){
         List<Review> l = new ArrayList<>();
         try {
-            return db.getReviews(course);
+            l = db.getReviews(course);
         }catch (SQLException s){
 
         }
-        return l;
+        if(!l.isEmpty())
+            return l;
+        else
+            throw new IllegalStateException();
     }
 
     public double Average (){
@@ -101,6 +104,10 @@ public class ReviewMngr {
             total++;
         }
         return sum/total;
+    }
+
+    public Student getStudent(){
+        return student;
     }
 
     public void logout(){
