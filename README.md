@@ -1,6 +1,11 @@
-# hw7-coursereview-cjp3jf-zac9nk-vya9tu
+Course Review Service
 
-Jalen Wang - zac9nk
-Ethan Christian - vya9tu
-Clark Pagels - cjp3jf
+Authors
 
+Jalen Wang 
+Ethan Christian 
+Clark Pagels 
+
+Built a command line User-Interface course review application from scratch. The program uses a Three-Layer Architecture with SQLite for Persistence. 
+
+Then implemented a GUI with all features of the app functioning
